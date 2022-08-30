@@ -13,10 +13,7 @@ class User {
       this.id = uuidV4();
       this.admin = false;
     }
-
   }
-
-
 }
 
 export { User };

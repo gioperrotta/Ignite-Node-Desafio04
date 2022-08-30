@@ -1,0 +1,305 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User-Admin Documentation",
+    "description": "This is an API for user administration",
+    "version": "1.0.0",
+    "contact": {
+      "email": "email@email.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "smmary": "Create a user",
+        "description": "Create a new user and return user created",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "John@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "uuidv4 ljk47545-njdjdkdjvv",
+                  "name": "John Doe",
+                  "email": "email@email.com",
+                  "created_at": "01-01-2000",
+                  "updated_at": "01-01-2000"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email do usuário já existe na base",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "smmary": "Retorna todos os usuários",
+        "description": "Somente usuários admin podem acessar",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "user_id of user to request list",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": "uuidv4 ljk47545-njdjdkdjvv",
+                    "name": "John Doe",
+                    "email": "email@email.com",
+                    "created_at": "01-01-2000",
+                    "updated_at": "01-01-2000"
+                  },
+                  {
+                    "id": "uuidv4 l54145-njd546kdj45",
+                    "name": "John Doe2",
+                    "email": "email@email.com",
+                    "created_at": "02-02-2000",
+                    "updated_at": "02-02-2000"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Usuário sem permissão ou Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "You need to be an administrator to list all users"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "smmary": "Retorna um usuario específico",
+        "description": "Show user profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Id of User to request list",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                },
+                "example":
+                  {
+                    "id": "uuidv4 ljk47545-njdjdkdjvv",
+                    "name": "John Doe",
+                    "email": "email@email.com",
+                    "created_at": "01-01-2000",
+                    "updated_at": "01-01-2000"
+                  }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User not Exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "smmary": "Retorna um usuario específico",
+        "description": "Show user profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Id of User to request list",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "Date"
+                    },
+                    "updated_at": {
+                      "type": "Date"
+                    }
+                  }
+                },
+                "example":
+                  {
+                    "admin": true,
+                    "id": "uuidv4 ljk47545-njdjdkdjvv",
+                    "name": "John Doe",
+                    "email": "email@email.com",
+                    "created_at": "01-01-2000",
+                    "updated_at": "01-01-2000"
+                  }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "User not Exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
